@@ -28,7 +28,7 @@ public class ProdutoController {
 
     @GetMapping("meu-get")
     public String metodo1() {
-        return "Produto Controller está ativo, isso é um teste";
+        return "Produto Controller está ativo, isso é um teste teste1";
     }
 
     @PostMapping("/salvar")
@@ -73,6 +73,11 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: "+ e.getMessage());
         }
 
+    }
+
+    @GetMapping("/buscar")
+    public List<ProdutoModel> buscar(@RequestParam String nomeBusca){
+        return produtoService.buscarPorNome(nomeBusca);
     }
 
 
