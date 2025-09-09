@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "*")
 @RestController
 
 @RequestMapping("/loja")
@@ -57,7 +58,7 @@ public class LojaController {
     }
 
     @GetMapping("/buscar")
-    public List<LojaModel> buscar(@RequestParam String nomeBusca){
+    public List<LojaModel> buscar(@RequestParam String nomeBusca) {
         return lojaService.buscarPorNome(nomeBusca);
     }
 

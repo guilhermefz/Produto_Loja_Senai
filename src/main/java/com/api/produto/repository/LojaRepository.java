@@ -15,6 +15,6 @@ public interface LojaRepository extends
     void deleteById(SingularAttribute<AbstractPersistable, Serializable> id);
 
     //List<ProdutoModel> findByNome(String nome);
-
     List<LojaModel> findByNomeContainingIgnoreCase(String nome);
+    //List<LojaModel> findByNomeContainingIgnoreCase(String nome, String cnpj, String endereco, String telefone);
 }

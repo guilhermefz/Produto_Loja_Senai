@@ -9,8 +9,10 @@ import lombok.Data;
 public class LojaDto {
     @NotBlank(message = "O nome é obrigatório")
     private String nome;
-    private String descricao;
-    @NotNull(message = "O preço é obrigatório")
-    @Min(value = 1, message = "O preço deve ser maior a zero")
-    private double preco;
+    @NotNull(message = "O cnpj é obrigatório")
+    private String cnpj;
+    private String endereco;
+    @NotNull(message = "O telefone é obrigatório")
+    private String telefone;
+
 }

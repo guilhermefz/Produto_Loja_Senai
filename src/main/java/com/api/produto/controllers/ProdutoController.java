@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
+@CrossOrigin(origins = "*")
 @RestController
 
 @RequestMapping("/produtos")

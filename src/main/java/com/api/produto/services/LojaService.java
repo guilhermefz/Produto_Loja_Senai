@@ -27,8 +27,9 @@ public class LojaService {
     public LojaModel create(LojaDto dto) {
         LojaModel loja = new LojaModel();
         loja.setNome(dto.getNome());
-        loja.setDescricao(dto.getDescricao());
-        loja.setPreco(dto.getPreco());
+        loja.setTelefone(dto.getTelefone());
+        loja.setEndereco(dto.getEndereco());
+        loja.setCnpj(dto.getCnpj());
         return lojaRepository.save(loja);
     }
 
@@ -46,8 +47,9 @@ public class LojaService {
         LojaModel existente = lojaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("loja não encontrado"));
         existente.setNome(dto.getNome());
-        existente.setDescricao(dto.getDescricao());
-        existente.setPreco(dto.getPreco());
+        existente.setTelefone(dto.getTelefone());
+        existente.setEndereco(dto.getEndereco());
+        existente.setCnpj(dto.getCnpj());
         return lojaRepository.save(existente);
     }
 }

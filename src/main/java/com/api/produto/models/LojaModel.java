@@ -13,6 +13,7 @@ public class LojaModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String nome;
-    private String descricao;
-    private double preco;
+    private String cnpj;
+    private String endereco;
+    private String telefone;
 }
