@@ -1,5 +1,6 @@
 package com.api.produto.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,4 +16,9 @@ public class ProdutoModel {
     private String nome;
     private String descricao;
     private double preco;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loja_id")
+    @JsonBackReference
+    private LojaModel lojaModel;
 }

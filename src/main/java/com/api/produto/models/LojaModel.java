@@ -1,8 +1,11 @@
 package com.api.produto.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,4 +19,11 @@ public class LojaModel {
     private String cnpj;
     private String endereco;
     private String telefone;
+
+    @OneToMany(mappedBy = "lojaModel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<ProdutoModel> produtos = new ArrayList<>();
+
+
+
 }

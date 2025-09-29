@@ -1,10 +1,13 @@
 package com.api.produto.controllers;
 
 import com.api.produto.dtos.ProdutoDto;
+import com.api.produto.models.LojaModel;
 import com.api.produto.models.ProdutoModel;
+import com.api.produto.repository.LojaRepository;
 import com.api.produto.services.ProdutoService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
@@ -21,26 +25,35 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RequestMapping("/produtos")
 public class ProdutoController {
-    private final ProdutoService produtoService;
+        private final ProdutoService produtoService;
+    private final LojaRepository lojaRepository;
 
-    public ProdutoController(ProdutoService produtoService) {
+    public ProdutoController(ProdutoService produtoService, LojaRepository lojaRepository) {
         this.produtoService = produtoService;
+        this.lojaRepository = lojaRepository;
     }
 
-    @GetMapping("meu-get")
-    public String metodo1() {
-        return "Produto Controller está ativo, isso é um teste teste1";
-    }
+        @GetMapping("meu-get")
+        public String metodo1() {
+            return "Produto Controller está ativo, isso é um teste teste1";
+        }
 
     @PostMapping("/salvar")
     public ResponseEntity<?> salvar(
             @RequestBody @Valid ProdutoDto dto
     ) {
 
-        ProdutoModel produtoSalvo = produtoService.create(dto);
+        Optional<LojaModel> loja = lojaRepository.findById(dto.getLojaId());
+        if (!loja.isPresent()) {
+            return ResponseEntity.badRequest().body("Loja não existe:" + dto.getLojaId());
+        }
+        //Cria o modelo do produto e associa DTO com MODEL
+        ProdutoModel produtoModel = new ProdutoModel();
+        BeanUtils.copyProperties(dto, produtoModel, "id", "lojaModel");
+        produtoModel.setLojaModel(loja.get()); //associar
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                produtoSalvo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.salvar(produtoModel));
+
     }
 
     @RequestMapping("/listar")

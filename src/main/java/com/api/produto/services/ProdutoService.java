@@ -29,6 +29,9 @@ public class ProdutoService {
         produto.setPreco(dto.getPreco());
         return produtoRepository.save(produto);
     }
+    public ProdutoModel salvar(ProdutoModel produtoModel) {
+        return produtoRepository.save(produtoModel);
+    }
 
     public ProdutoModel atualizar(ProdutoDto dto, UUID id) {
         ProdutoModel existente = produtoRepository.findById(id)

@@ -41,8 +41,7 @@ public class LojaController {
 
         LojaModel lojaModel = lojaService.create(dto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                lojaModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(lojaModel);
     }
 
     @PostMapping("/apagar/{id}")
