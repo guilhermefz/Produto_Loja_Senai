@@ -8,6 +8,18 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    host: mail.artostech.com.br
+    port: 465
+    username: senai@artostech.com.br
+    password: gPvXHt0QOeCP
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
 server:
   servlet:
     encoding:

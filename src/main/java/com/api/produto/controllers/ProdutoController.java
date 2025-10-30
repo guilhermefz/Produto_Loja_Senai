@@ -1,6 +1,7 @@
 package com.api.produto.controllers;
 
 import com.api.produto.dtos.ProdutoDto;
+import com.api.produto.dtos.ProdutoResponseDto;
 import com.api.produto.models.LojaModel;
 import com.api.produto.models.ProdutoModel;
 import com.api.produto.repository.LojaRepository;
@@ -68,8 +69,23 @@ public class ProdutoController {
             ) {
 
         try {
-            ProdutoModel produtoEditado = produtoService.atualizar(dto, id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(produtoEditado);
+
+
+            Optional<LojaModel> loja = lojaRepository.findById(dto.getLojaId());
+            if (!loja.isPresent()) {
+                return ResponseEntity.badRequest().body("Loja não encontrada");
+            }
+
+            var produto = produtoService.findById(id);
+            if(!produto.isPresent()){
+                return ResponseEntity.badRequest().body("Produto não encontrado");
+            }
+            ProdutoModel produtoModel = new ProdutoModel();
+            BeanUtils.copyProperties(dto, produtoModel,"lojaModel");
+            produtoModel.setId(id);
+            produtoModel.setLojaModel(loja.get());
+            return ResponseEntity.ok(produtoService.salvar(produtoModel));
+
         } catch (Exception e) {
             //retorna error 500 com a mensagem de erro para o front
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: "+ e.getMessage());
@@ -94,6 +110,10 @@ public class ProdutoController {
         return produtoService.buscarPorNome(nomeBusca);
     }
 
+    @GetMapping("/listar-projetado")
+    public List<ProdutoResponseDto> listarProjetado() {
+        return produtoService.listarProjetado();
+    }
 
 
 }
